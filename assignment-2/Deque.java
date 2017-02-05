@@ -2,9 +2,9 @@ import java.util.NoSuchElementException;
 import java.util.Iterator;
 
 public class Deque<Item> implements Iterable<Item> {
-    Item[] queue;
+    private Item[] queue;
     private int pHead;
-    int pTail;
+    private int pTail;
 
     // construct an empty deque
     public Deque(){
@@ -22,8 +22,8 @@ public class Deque<Item> implements Iterable<Item> {
     }
     // add the item to the front
     public void addFirst(Item item){
-        int size = resizable();
-        if(size > 0) resize(size, size());
+        if(item == null) throw new NullPointerException();
+        if(resizable()) resize(size());
         if(pHead > 0){
             pHead--;
             queue[pHead] = item;
@@ -31,8 +31,7 @@ public class Deque<Item> implements Iterable<Item> {
     }
     // add the item to the end
     public void addLast(Item item){
-        int size = resizable();
-        if(size > 0) resize(size, size());
+        if(resizable()) resize(size());
         if(pTail < queue.length-1){
             pTail++;
             queue[pTail] = item;
@@ -40,38 +39,41 @@ public class Deque<Item> implements Iterable<Item> {
     }
     // remove and return the item from the front
     public Item removeFirst() {
-        if(isEmpty()) throw new NoSuchElementException();
+        if(isEmpty()) throw new UnsupportedOperationException();
         Item i = queue[pHead];
         queue[pHead] = null;
         pHead++;
-        int size = resizable();
-        if(size > 0) resize(size, size());
+        if(resizable()) resize(size());
         return i;
     }
     // remove and return the item from the end
     public Item removeLast()  {
-        if(isEmpty()) throw new NoSuchElementException();
+        if(isEmpty()) throw new UnsupportedOperationException();
         Item i = queue[pTail];
         queue[pTail] = null;
         pTail--;
-        int size = resizable();
-        if(size > 0) resize(size, size());
+        if(resizable()) resize(size());
         return i;
     }
 
-    private int resizable(){
-        int size = -1;
+    private boolean resizable(){
         if(size() > 0 && size() <= queue.length/4){
-            size = queue.length/2;
+            return true;
         } else if((pTail+1) == queue.length || pHead == 0) {
-            size = queue.length*2;
+            return true;
         }
-        return size;
+        return false;
     }
 
-    private void resize(int size, int numElem){
-        Item[] newQueue = (Item[]) new Object[size];
-        int p1 = ((size-1)/2) - ((numElem-1)/2);
+    private void resize(int numElem){
+        int newSize = -1;
+        if(size() > 0 && size() <= queue.length/4){
+            newSize = queue.length/2;
+        } else if((pTail+1) == queue.length || pHead == 0) {
+            newSize = queue.length*2;
+        }
+        Item[] newQueue = (Item[]) new Object[newSize];
+        int p1 = ((newSize-1)/2) - ((numElem-1)/2);
         int p2 = pHead;
         int pElem = 0;
         while(pElem < numElem){
@@ -80,7 +82,6 @@ public class Deque<Item> implements Iterable<Item> {
         }
         pHead = p1;
         pTail = pHead + numElem-1;
-        System.out.println("Resized to: " + newQueue.length);
         queue = newQueue;
     }
 
@@ -145,14 +146,16 @@ public class Deque<Item> implements Iterable<Item> {
         }
         @Override
         public boolean hasNext(){
-            //System.out.println("hasNext: " + (p < items.length-1));
             return p < items.length-1 && items[p+1] != null;
         }
         @Override
         public Item next() {
-            //if(!hasNext()) throw new NoSuchElementException();
-            //System.out.println("next: " + p);
+            if(!hasNext()) throw new NoSuchElementException();
             return items[++p];
+        }
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException();
         }
     }
 }
