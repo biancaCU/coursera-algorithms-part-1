@@ -4,3 +4,6 @@
 *.zip
 test/
 lib/
+build/
+classes/
+make
