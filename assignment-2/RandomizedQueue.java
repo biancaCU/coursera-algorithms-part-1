@@ -3,8 +3,8 @@ import java.util.NoSuchElementException;
 import java.util.Iterator;
 
 public class RandomizedQueue<Item> implements Iterable<Item> {
-    Item[] queue;
-    int numItems;
+    private Item[] queue;
+    private int numItems;
     // construct an empty randomized queue
     public RandomizedQueue(){
         queue = (Item[]) new Object[2];
@@ -20,9 +20,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     // add the item
     public void enqueue(Item item){
         if(item == null) throw new NullPointerException();
-        if(resizable()) resize();
-        queue[numItems] = item;
         numItems++;
+        if(resizable()) resize();
+        queue[numItems-1] = item;
     }
     // remove and return a random item
     public Item dequeue(){
@@ -36,6 +36,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
     // return (but do not remove) a random item
     public Item sample(){
+        if(isEmpty()) throw new NoSuchElementException();
         return queue[StdRandom.uniform(0, numItems)];
     }
     // return an independent iterator over items in random order
@@ -52,7 +53,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     private void resize(){
         if(numItems == queue.length){
             queue = transfer(queue, (Item[]) new Object[queue.length*2], numItems);
-        } else if (numItems <= queue.length/4){
+        } else if (numItems < queue.length/4){
             queue = transfer(queue, (Item[]) new Object[queue.length/2], numItems);
         }
     }
@@ -97,7 +98,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         }
     }
 
-    public void print(){
+    private void print(){
         System.out.print("[");
         for(int i=0; i<queue.length; i++){
             System.out.print(queue[i]+ ", ");
@@ -110,19 +111,19 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         rq.enqueue(1);
         rq.enqueue(2);
         rq.enqueue(3);
-        rq.print();
+        //rq.print();
         System.out.println("Size: " + rq.size());
         rq.enqueue(4);
         rq.enqueue(5);
-        rq.print();
+        //rq.print();
         System.out.println("Size: " + rq.size());
         System.out.println("Dequeue: " + rq.dequeue());
-        rq.print();
+        //rq.print();
         System.out.println("Size: " + rq.size());
         System.out.println("Dequeue: " + rq.dequeue());
         System.out.println("Dequeue: " + rq.dequeue());
         System.out.println("Dequeue: " + rq.dequeue());
-        rq.print();
+        //rq.print();
         System.out.println("Size: " + rq.size());
 
         Iterator<Integer> iter = rq.iterator();

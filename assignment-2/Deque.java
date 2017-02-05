@@ -31,6 +31,7 @@ public class Deque<Item> implements Iterable<Item> {
     }
     // add the item to the end
     public void addLast(Item item){
+        if(item == null) throw new NullPointerException();
         if(resizable()) resize(size());
         if(pTail < queue.length-1){
             pTail++;
@@ -39,7 +40,7 @@ public class Deque<Item> implements Iterable<Item> {
     }
     // remove and return the item from the front
     public Item removeFirst() {
-        if(isEmpty()) throw new UnsupportedOperationException();
+        if(isEmpty()) throw new NoSuchElementException();
         Item i = queue[pHead];
         queue[pHead] = null;
         pHead++;
@@ -48,7 +49,7 @@ public class Deque<Item> implements Iterable<Item> {
     }
     // remove and return the item from the end
     public Item removeLast()  {
-        if(isEmpty()) throw new UnsupportedOperationException();
+        if(isEmpty()) throw new NoSuchElementException();
         Item i = queue[pTail];
         queue[pTail] = null;
         pTail--;
@@ -85,7 +86,7 @@ public class Deque<Item> implements Iterable<Item> {
         queue = newQueue;
     }
 
-    public void print(){
+    private void print(){
         System.out.print("[");
         for(int i=0; i<queue.length; i++){
             System.out.print(queue[i]+ ", ");
@@ -103,33 +104,33 @@ public class Deque<Item> implements Iterable<Item> {
     public static void main(String[] args){
         Deque<Integer> d = new Deque<Integer>();
         d.addFirst(1);
-        d.print();
+        //d.print();
         d.addLast(2);
-        d.print();
+        //d.print();
         d.addLast(4);
-        d.print();
+        //d.print();
         d.addLast(5);
-        d.print();
+        //d.print();
         d.addFirst(0);
-        d.print();
+        //d.print();
         d.addLast(6);
-        d.print();
+        //d.print();
         d.addFirst(20);
-        d.print();
+        //d.print();
         d.addFirst(10);
-        d.print();
+        //d.print();
         d.addFirst(15);
-        d.print();
+        //d.print();
         d.removeLast();
-        d.print();
+        //d.print();
         d.removeLast();
-        d.print();
+        //d.print();
         d.removeLast();
-        d.print();
+        //d.print();
         d.removeLast();
-        d.print();
+        //d.print();
         d.removeLast();
-        d.print();
+        //d.print();
 
         Iterator<Integer> iter = d.iterator();
         while(iter.hasNext()){
