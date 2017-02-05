@@ -5,6 +5,7 @@ import java.util.Iterator;
 public class RandomizedQueue<Item> implements Iterable<Item> {
     private Item[] queue;
     private int numItems;
+    private boolean needsShuffle;
     // construct an empty randomized queue
     public RandomizedQueue(){
         queue = (Item[]) new Object[2];
@@ -23,11 +24,15 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         numItems++;
         if(resizable()) resize();
         queue[numItems-1] = item;
+        needsShuffle = true;
     }
     // remove and return a random item
     public Item dequeue(){
         if(isEmpty()) throw new NoSuchElementException();
-        StdRandom.shuffle(queue, 0, numItems);
+        if(needsShuffle){
+            StdRandom.shuffle(queue, 0, numItems);
+            needsShuffle=false;
+        }
         Item temp = queue[numItems-1];
         queue[numItems-1] = null;
         numItems--;
@@ -45,9 +50,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     private boolean resizable(){
-        if(numItems == queue.length) return true;
-        else if(numItems == queue.length/4) return true;
-        return false;
+        if(numItems >= queue.length) return true;
+        else if(!isEmpty() && numItems == queue.length/4) return true;
+        else return false;
     }
 
     private void resize(){
@@ -82,6 +87,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
                 p2++;
                 p1++;
             }
+            StdRandom.shuffle(this.newItems);
         }
         @Override
         public boolean hasNext(){
@@ -107,7 +113,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
     // unit testing (optional)
     public static void main(String[] args){
-        RandomizedQueue<Integer> rq = new RandomizedQueue<Integer>();
+        /*RandomizedQueue<Integer> rq = new RandomizedQueue<Integer>();
         rq.enqueue(1);
         rq.enqueue(2);
         rq.enqueue(3);
@@ -129,6 +135,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         Iterator<Integer> iter = rq.iterator();
         while(iter.hasNext()){
             System.out.println(iter.next());
-        }
+        }*/
     }
 }

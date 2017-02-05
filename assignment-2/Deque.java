@@ -58,12 +58,9 @@ public class Deque<Item> implements Iterable<Item> {
     }
 
     private boolean resizable(){
-        if(size() > 0 && size() <= queue.length/4){
-            return true;
-        } else if((pTail+1) == queue.length || pHead == 0) {
-            return true;
-        }
-        return false;
+        if(!isEmpty() && size() <= queue.length/4) return true;
+        else if((pTail+1) == queue.length || pHead == 0) return true;
+        else return false;
     }
 
     private void resize(int numElem){
@@ -102,7 +99,7 @@ public class Deque<Item> implements Iterable<Item> {
     }
     // unit testing (optional)
     public static void main(String[] args){
-        Deque<Integer> d = new Deque<Integer>();
+        /*Deque<Integer> d = new Deque<Integer>();
         d.addFirst(1);
         //d.print();
         d.addLast(2);
@@ -135,7 +132,7 @@ public class Deque<Item> implements Iterable<Item> {
         Iterator<Integer> iter = d.iterator();
         while(iter.hasNext()){
             System.out.println(iter.next());
-        }
+        }*/
     }
 
     private class DequeIterator<Item> implements Iterator<Item>{
