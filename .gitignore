@@ -6,4 +6,5 @@ test/
 lib/
 build/
 classes/
+local-maven-repo/
 make

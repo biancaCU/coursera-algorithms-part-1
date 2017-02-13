@@ -15,6 +15,7 @@ public class FastCollinearPoints {
         ArrayList<LineSegment> segs = new ArrayList<LineSegment>();
         Point[] sortedPoints = points.clone();
         Arrays.sort(sortedPoints);
+        checkDuplicate(sortedPoints);
         for (Point point : sortedPoints) {
             Point[] slopeSortedPoints = sortedPoints.clone();
             Arrays.sort(slopeSortedPoints, point.slopeOrder());
@@ -23,8 +24,8 @@ public class FastCollinearPoints {
             while (p1 < slopeSortedPoints.length) {
                 while (p2 < slopeSortedPoints.length &&
                         slopeSortedPoints[0].slopeTo(slopeSortedPoints[p1]) == slopeSortedPoints[0].slopeTo(slopeSortedPoints[p2])) {
-                    if (p1 != p2 && slopeSortedPoints[p2].compareTo(slopeSortedPoints[p1]) == 0)
-                        throw new IllegalArgumentException();
+                    /*if (p1 != p2 && slopeSortedPoints[p2].compareTo(slopeSortedPoints[p1]) == 0)
+                        throw new IllegalArgumentException();*/
                     p2++;
                 }
                 if (p2 - p1 >= 3 && point.compareTo(slopeSortedPoints[p1]) < 0) {
@@ -37,6 +38,14 @@ public class FastCollinearPoints {
 
         lineSegments = new LineSegment[segs.size()];
         segs.toArray(lineSegments);
+    }
+
+    private void checkDuplicate(Point[] points) {
+        int i = 0;
+        for (int j = 1; j < points.length; j++) {
+            if (points[i].compareTo(points[j]) == 0) throw new IllegalArgumentException();
+            i++;
+        }
     }
 
     // the number of line segments

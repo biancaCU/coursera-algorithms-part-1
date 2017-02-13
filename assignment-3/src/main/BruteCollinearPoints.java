@@ -16,9 +16,10 @@ public class BruteCollinearPoints {
         ArrayList<LineSegment> segs = new ArrayList<LineSegment>();
         Point[] sortedPoints = points.clone();
         Arrays.sort(sortedPoints);
+        checkDuplicate(sortedPoints);
         for (int i = 0; i < sortedPoints.length - 3; i++) {
             for (int j = i + 1; j < sortedPoints.length - 2; j++) {
-                if (sortedPoints[i].compareTo(sortedPoints[j]) == 0) throw new IllegalArgumentException();
+                // if (sortedPoints[i].compareTo(sortedPoints[j]) == 0) throw new IllegalArgumentException();
                 for (int k = j + 1; k < sortedPoints.length - 1; k++) {
                     for (int l = k + 1; l < sortedPoints.length; l++) {
                         double slope = sortedPoints[i].slopeTo(sortedPoints[j]);
@@ -31,6 +32,14 @@ public class BruteCollinearPoints {
         }
         lineSegments = new LineSegment[segs.size()];
         segs.toArray(lineSegments);
+    }
+
+    private void checkDuplicate(Point[] points) {
+        int i = 0;
+        for (int j = 1; j < points.length; j++) {
+            if (points[i].compareTo(points[j]) == 0) throw new IllegalArgumentException();
+            i++;
+        }
     }
 
     // the number of line segments
