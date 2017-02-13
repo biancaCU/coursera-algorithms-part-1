@@ -61,10 +61,10 @@ public class Point implements Comparable<Point> {
      * @return the slope between this point and the specified point
      */
     public double slopeTo(Point that) {
-        if(that == null) throw new NullPointerException();
-        else if(this.compareTo(that) == 0) return Double.NEGATIVE_INFINITY;
-        else if(this.y == that.y) return 0.0;
-        else if(this.x == that.x) return Double.POSITIVE_INFINITY;
+        if (that == null) throw new NullPointerException();
+        else if (this.compareTo(that) == 0) return Double.NEGATIVE_INFINITY;
+        else if (this.y == that.y) return 0.0;
+        else if (this.x == that.x) return Double.POSITIVE_INFINITY;
         else return ((double) (that.y - this.y)) / (double) (that.x - this.x);
     }
 
@@ -82,9 +82,9 @@ public class Point implements Comparable<Point> {
      */
     public int compareTo(Point that) {
         /* YOUR CODE HERE */
-        if(that == null) throw new NullPointerException();
-        else if(this.x == that.x && this.y == that.y) return 0;
-        else if(this.y == that.y) return this.x - that.x;
+        if (that == null) throw new NullPointerException();
+        else if (this.x == that.x && this.y == that.y) return 0;
+        else if (this.y == that.y) return this.x - that.x;
         else return this.y - that.y;
     }
 
@@ -98,18 +98,18 @@ public class Point implements Comparable<Point> {
         return new PointComparator(this);
     }
 
-    private class PointComparator implements Comparator<Point>{
-        Point p;
-        public PointComparator(Point p){
+    private class PointComparator implements Comparator<Point> {
+        private Point p;
+        public PointComparator(Point p) {
             this.p = p;
         }
         public int compare(Point o1, Point o2) {
-            if(o1==null || o2==null) throw new NullPointerException();
+            if (o1 == null || o2 == null) throw new NullPointerException();
             double comp = p.slopeTo(o1) - p.slopeTo(o2);
-            if(comp == 0.0){
+            if (comp == 0.0) {
                 return o1.compareTo(o2);
             }
-            else if(comp > 0.0) return 1;
+            else if (comp > 0.0) return 1;
             else return -1;
         }
     }
