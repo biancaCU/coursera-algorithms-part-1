@@ -104,6 +104,7 @@ public class Point implements Comparable<Point> {
             this.p = p;
         }
         public int compare(Point o1, Point o2) {
+            if(o1==null || o2==null) throw new NullPointerException();
             double comp = p.slopeTo(o1) - p.slopeTo(o2);
             if(comp == 0.0){
                 return o1.compareTo(o2);
