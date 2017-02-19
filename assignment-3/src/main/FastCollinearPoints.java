@@ -24,8 +24,6 @@ public class FastCollinearPoints {
             while (p1 < slopeSortedPoints.length) {
                 while (p2 < slopeSortedPoints.length &&
                         slopeSortedPoints[0].slopeTo(slopeSortedPoints[p1]) == slopeSortedPoints[0].slopeTo(slopeSortedPoints[p2])) {
-                    /*if (p1 != p2 && slopeSortedPoints[p2].compareTo(slopeSortedPoints[p1]) == 0)
-                        throw new IllegalArgumentException();*/
                     p2++;
                 }
                 if (p2 - p1 >= 3 && point.compareTo(slopeSortedPoints[p1]) < 0) {

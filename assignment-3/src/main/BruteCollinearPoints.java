@@ -19,7 +19,6 @@ public class BruteCollinearPoints {
         checkDuplicate(sortedPoints);
         for (int i = 0; i < sortedPoints.length - 3; i++) {
             for (int j = i + 1; j < sortedPoints.length - 2; j++) {
-                // if (sortedPoints[i].compareTo(sortedPoints[j]) == 0) throw new IllegalArgumentException();
                 for (int k = j + 1; k < sortedPoints.length - 1; k++) {
                     for (int l = k + 1; l < sortedPoints.length; l++) {
                         double slope = sortedPoints[i].slopeTo(sortedPoints[j]);
